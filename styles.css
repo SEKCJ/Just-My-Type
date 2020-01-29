@@ -19,7 +19,7 @@
 } */
 
 .keyboard-container {
-  margin-top: 200px;
+  margin-top: 150px;
 }
 
 #target-letter {
@@ -45,4 +45,38 @@
 .highlight {
   background-color: yellow;
   color: black;
+}
+
+.play-again{
+  display:none;
+  font-family: 'Press Start 2P', cursive;
+  margin: 2em  auto 0em;
+  font-size: 1em;
+  padding: 0.5em 0em 0.5em 1em;
+  width: 9em;
+  cursor: pointer;
+  color: white;
+  border: 7px #831A2B solid;
+  border-radius: 1em;
+  background-color: #A41C2E;
+  -webkit-box-shadow: 21px 17px 29px -7px rgba(0,0,0,0.92);
+  -moz-box-shadow: 21px 17px 29px -7px rgba(0,0,0,0.92);
+  box-shadow: 21px 17px 29px -7px rgba(0,0,0,0.92);
+}
+
+.play-again:active{
+  transform: translateY(6px);
+  -webkit-box-shadow: 15px 10px 29px -7px rgba(0,0,0,0.92);
+  -moz-box-shadow: 15px 10px 29px -7px rgba(0,0,0,0.92);
+  box-shadow: 15px 10px 29px -7px rgba(0,0,0,0.92);
+}
+
+#sentence {
+  margin-left: 5em;
+}
+
+body {
+  background-image: url("https://img.freepik.com/free-photo/white-marble-texture-background-abstract-marble-texture-natural-patterns-design_41389-323.jpg?size=626&ext=jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }

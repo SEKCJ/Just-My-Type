@@ -4,18 +4,23 @@ $(document).ready(function () {
     let y;
     let index = 0
     let count = 0;
+    let numberOfWords = 55;
+    let numberOfMistakes = 0;
+    let start = "";
+    let end = ""
 
-    String.prototype.highLightAt = function(index) {  
-        return this.substr(0, index) + '<span class="highlight">' + this.substr(index,1) + '</span>' + this.substr(index +1);
-      }    
+
+    String.prototype.highLightAt = function (index) {
+        return this.substr(0, index) + '<span class="highlight">' + this.substr(index, 1) + '</span>' + this.substr(index + 1);
+    }
 
     let sentences = ['ten ate neite ate nee enet ite ate inet ent eate',
         'Too ato too nOt enot one totA not anot tOO aNot', 'oat itain oat tain nate eate tea anne inant nean',
         'itant eate anot eat nato inate eat anot tain eat', 'nee ene ate ite tent tiet ent ine ene ete ene ate'];
-    
+
     let modifiedText = sentences[count].highLightAt(index);
     $('#sentence').html(modifiedText);
-    
+
     $(document).keydown(function () {
         if (event.which == 16) {
             $('#keyboard-upper-container').css('display', 'block');
@@ -32,6 +37,9 @@ $(document).ready(function () {
     })
 
     $(document).keypress(function () {
+        if (start == "") {
+            start = new Date();
+        }
         sentence = sentences[count];
         sentence_length = sentence.length;
 
@@ -46,6 +54,7 @@ $(document).ready(function () {
                 $('#sentence').html(modifiedText);
             } else {
                 $('#feedback').append('<span class="glyphicon glyphicon-remove"></span>');
+                numberOfMistakes++
             };
 
 
@@ -58,6 +67,21 @@ $(document).ready(function () {
                 index = 0;
                 modifiedText = sentences[count].highLightAt(index);
                 $('#sentence').html(modifiedText);
+            } else if (count >= 4){
+                if (end == "") {
+                    end = new Date();
+                }
+                minutes = ((end - start) / 1000) / 60;
+                wpm = (numberOfWords / minutes) - (2 * numberOfMistakes);
+                count++
+                $('#sentence').html(`Ran out of Sentences! Your count was ${wpm.toFixed(0)} Words Per Minute!`)
+                $('#sentence').css('margin-left', '0em')
+                $('#feedback').empty();
+                $('#sentence').after('<div class="play-again">Play Again?</div>')
+                $('.play-again').click(function () {
+                    location.reload(true);
+                })
+                $('.play-again').slideUp(300).delay(1500).fadeIn(400)
             }
         }
     })
@@ -76,5 +100,4 @@ $(document).ready(function () {
         y = x;
     }
 
-    
 });
