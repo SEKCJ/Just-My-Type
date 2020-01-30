@@ -10,7 +10,9 @@ $(document).ready(function () {
     let end = ""
 
 
+
     String.prototype.highLightAt = function (index) {
+        
         return this.substr(0, index) + '<span class="highlight">' + this.substr(index, 1) + '</span>' + this.substr(index + 1);
     }
 
@@ -28,12 +30,12 @@ $(document).ready(function () {
         }
     })
 
-    $(document).keyup(function () {
+    $(document).keyup(function () {     
         if (event.which == 16) {
             $('#keyboard-upper-container').css('display', 'none');
             $('#keyboard-lower-container').css('display', 'block');
         }
-
+        $('.highlight_key').removeClass('highlight_key')
     })
 
     $(document).keypress(function () {
@@ -46,7 +48,7 @@ $(document).ready(function () {
         letter = String.fromCharCode(event.which);
         $('#target-letter').text(letter);
 
-        if (sentence_length > index) {
+        if (sentence_length - 1 > index) {
             if (sentence.charAt(index) == letter) {
                 $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>')
                 index++
@@ -61,26 +63,30 @@ $(document).ready(function () {
         } else {
             if (count < 4) {
                 console.log("reached end");
-                count++
+                count++ 
                 $('#sentence').empty();
                 $('#feedback').empty();
                 index = 0;
                 modifiedText = sentences[count].highLightAt(index);
                 $('#sentence').html(modifiedText);
-            } else if (count >= 4){
+            } else if (count >= 4) {
                 if (end == "") {
                     end = new Date();
                 }
                 minutes = ((end - start) / 1000) / 60;
                 wpm = (numberOfWords / minutes) - (2 * numberOfMistakes);
                 count++
+                $('#feedback').empty();
+                $('#target-letter').empty();
+
                 $('#sentence').html(`Ran out of Sentences! Your count was ${wpm.toFixed(0)} Words Per Minute!`)
                 $('#sentence').css('margin-left', '0em')
-                $('#feedback').empty();
                 $('#sentence').after('<div class="play-again">Play Again?</div>')
+
                 $('.play-again').click(function () {
                     location.reload(true);
                 })
+
                 $('.play-again').slideUp(300).delay(1500).fadeIn(400)
             }
         }
@@ -89,15 +95,16 @@ $(document).ready(function () {
     $(document).on("keypress", key_highlight)
 
     function key_highlight() {
-        $(`#${event.which}`).css('background-color', "yellow");
-        x = event.which
-        if (y !== x) {
-            $(`#${y}`).css('background-color', '#f5f5f5');
-        }
-        $(document).keyup(function () {
-            $(`#${x}`).css('background-color', '#f5f5f5');
-        })
-        y = x;
+        // $(`#${event.which}`).css('background-color', "yellow");
+        // x = event.which
+        // if (y !== x) {
+        //     $(`#${y}`).css('background-color', '#f5f5f5');
+        // }
+        // $(document).keyup(function () {
+        //     $(`#${x}`).css('background-color', '#f5f5f5');
+        // })
+        // y = x;
+        $(`#${event.which}`).addClass('highlight_key');
     }
 
 });

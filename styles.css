@@ -47,6 +47,11 @@
   color: black;
 }
 
+.highlight_key {
+  background-color: yellow;
+  color: black;
+}
+
 .play-again{
   display:none;
   font-family: 'Press Start 2P', cursive;
