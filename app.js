@@ -11,8 +11,7 @@ $(document).ready(function () {
 
 
 
-    String.prototype.highLightAt = function (index) {
-        
+    String.prototype.highLightAt = function (index) {   
         return this.substr(0, index) + '<span class="highlight">' + this.substr(index, 1) + '</span>' + this.substr(index + 1);
     }
 
@@ -22,6 +21,7 @@ $(document).ready(function () {
 
     let modifiedText = sentences[count].highLightAt(index);
     $('#sentence').html(modifiedText);
+    $('#target-letter').text(sentences[0].charAt(index));
 
     $(document).keydown(function () {
         if (event.which == 16) {
@@ -46,14 +46,21 @@ $(document).ready(function () {
         sentence_length = sentence.length;
 
         letter = String.fromCharCode(event.which);
-        $('#target-letter').text(letter);
+        
 
         if (sentence_length - 1 > index) {
             if (sentence.charAt(index) == letter) {
+                if (sentence.charAt(index+1) == " "){
+                    $('#target-letter').text('Space');
+                } else{
+                    $('#target-letter').text(sentence.charAt(index+1));
+                }
+
                 $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>')
                 index++
                 modifiedText = sentence.highLightAt(index);
                 $('#sentence').html(modifiedText);
+                
             } else {
                 $('#feedback').append('<span class="glyphicon glyphicon-remove"></span>');
                 numberOfMistakes++
@@ -67,6 +74,7 @@ $(document).ready(function () {
                 $('#sentence').empty();
                 $('#feedback').empty();
                 index = 0;
+                $('#target-letter').text(sentences[count].charAt(index));
                 modifiedText = sentences[count].highLightAt(index);
                 $('#sentence').html(modifiedText);
             } else if (count >= 4) {
